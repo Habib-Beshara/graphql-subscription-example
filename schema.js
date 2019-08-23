@@ -24,15 +24,11 @@ const myGraphQLSchema = gql`
   
 `
 
-const schema = new ApolloServer({
+const apollo = new ApolloServer({
   typeDefs: myGraphQLSchema,
   resolvers: resolvers,
-  // subscriptions: {
-  //   path: '/graphql'
-  // },
-  playground: {
-    endpoint: '/graphql',
-    subscriptionEndpoint: '/graphql'
+  subscriptions: {
+    path: '/subscriptions'
   },
 })
-module.exports = schema
+module.exports = apollo

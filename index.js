@@ -5,25 +5,18 @@ const { createServer } = require('http')
 const { execute, subscribe } = require('graphql')
 // import { PubSub } from 'graphql-subscriptions'
 const { SubscriptionServer } = require('subscriptions-transport-ws')
-const schema  = require('./schema')
+const apollo  = require('./schema')
 
 const PORT = 3000
+const WS_PORT = 3001
 const app = express()
 
-schema.applyMiddleware({
+apollo.applyMiddleware({
   app
 })
 
 const server = createServer(app)
-
+apollo.installSubscriptionHandlers(server)
 server.listen(PORT, () => {
   console.log(`server is listening on port ${PORT}`)
-  new SubscriptionServer({
-    execute,
-    subscribe,
-    schema: schema,
-  }, {
-    server: server,
-    path: '/subscriptions',
-  })
 })

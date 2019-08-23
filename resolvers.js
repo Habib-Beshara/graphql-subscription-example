@@ -5,9 +5,9 @@ const resolvers = {
   Subscription: {
     someSub: {
       subscribe: () => {
-        console.log('here at subs')
         return pubsub.asyncIterator('SOMETHING_CHANGED')
       },
+      resolve: () => 'This is the result of SOMETHING_CHANGED'
     },
   },
   Query: {
@@ -15,7 +15,10 @@ const resolvers = {
   },
   Mutation: {
     someMutation: () => 'mutation test',
-    testSub: () => pubsub.publish('SOMETHING_CHANGED', 'sub test'),
+    testSub: () => {
+      pubsub.publish('SOMETHING_CHANGED', 'sub test')
+      return 'this work!'
+    },
   },
 }
 
